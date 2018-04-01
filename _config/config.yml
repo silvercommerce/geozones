@@ -1,0 +1,7 @@
+---
+Name: geozoneconfig
+---
+## Extensions
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - SilverCommerce\GeoZones\Extensions\SiteConfigExtension

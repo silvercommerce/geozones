@@ -1,0 +1,36 @@
+{
+  "name": "silvercommerce/geozones",
+  "description": "Add generic 'geo-zones' a full list of country specific regions and the ability to categorise them into zones",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/silvercommerce/geozones",
+    "keywords": [
+        "silverstripe",
+        "ISO 3166",
+        "countries",
+        "regions",
+        "subdivisions",
+        "zones"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Morven Lewis-Everley",
+            "email": "morven@ilateral.co.uk"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/silvercommerce/geozones/issues"
+    },
+    "require": {
+        "silverstripe/framework": "~4.0",
+        "silverstripe/siteconfig": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverCommerce\\GeoZones\\": "src/"
+        }
+    },
+    "suggest": {
+        "silverstripe/cms": "Add full content management support to your site"
+    }
+}
