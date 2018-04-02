@@ -21,3 +21,47 @@ Easiest is to install via composer:
 
 All GeoZone settings are linked to `SiteConfig`, to setup new Zones, or add new regions, you can
 do this by visit site settings and selecting the "GeoZones" tab.
+
+## Region Selection Field
+
+This module also provides a `RegionSelectionField` which is a simple ajax powered form
+field that can be used to filter the regions list by a pre-defined country code.
+
+You can add a `RegionSelectionField` to your code via the following:
+
+```php
+use SilverCommerce\GeoZones\Forms\RegionSelectionField;
+
+$form = Form::create(
+    $this,
+    'PostageForm',
+    $fields = FieldList::create(
+        DropdownField::create(
+            'Country',
+            'Country',
+            array_change_key_case(
+                i18n::getData()->getCountries(),
+                CASE_UPPER
+            )
+        ),
+        RegionSelectionField::create(
+            "Region",
+            "County/State",
+            "Country" // name of the field in this form responsible for setting a country code
+        )
+    ),
+    $actions = FieldList::create(
+        FormAction::create(
+            "doSetPostage",
+            _t('SilverCommerce\ShoppingCart.Search', "Search")
+        )
+    ),
+    $required = RequiredFields::create(array(
+        "Country",
+        "Region"
+    ))
+);
+```
+
+**NOTE** You must add a field to the same form that is responsible for setting a valid
+country code (ISO 3166 2 character) for `RegionSelectionField` to work.
