@@ -1,5 +1,7 @@
 # SilverCommerce GeoZones
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silvercommerce/geozones/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/silvercommerce/geozones/?branch=1.0)
+
 Adds a list of ISO-3166-2 "Subdivisions" and allows for these to be divided up into "Zones" (which can be used for geographical identicifation)
 
 The initial list is generated based on data provided by the Debian project. more at:
