@@ -30,6 +30,11 @@
             "SilverCommerce\\GeoZones\\": "src/"
         }
     },
+    "extra": {
+        "expose": [
+            "client/dist"
+        ]
+    },
     "suggest": {
         "silverstripe/cms": "Add full content management support to your site"
     }
