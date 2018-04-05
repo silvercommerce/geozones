@@ -26,7 +26,9 @@
 	 * @param {select} region_field the current region field
 	 * @param {string} country the 2 character country code to send
 	 */
-	function xhr_request(region_field, country) {
+	function xhr_request(country_field) {
+		var region_field = document.getElementById(country_field.dataset.regionField);
+		var country = country_field.value;
 		var link = region_field.dataset.link + "/" + country;
 		var xhr = create_xhr();
 
@@ -63,8 +65,9 @@
 
 		if (curr.dataset.regionField) {
 			var country_field = document.getElementById(curr.dataset.countryField);
+			country_field.dataset.regionField = curr.id; 
 			country_field.onchange = function() {
-                xhr_request(curr, country_field.value);
+                xhr_request(this);
             }
 		}
 	}
