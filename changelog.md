@@ -13,3 +13,8 @@ Add `RegionSelectionField`
 ## 1.0.2
 
 Allow support for multiple `RegionSelectionField` objects in one form
+
+## 1.1.0
+
+Add ability to assign multiple countries to a `Zone` (ensureing auto
+linking of regions is simplified).
