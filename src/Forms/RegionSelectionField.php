@@ -4,6 +4,7 @@ namespace SilverCommerce\GeoZones\Forms;
 
 use Locale;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\Requirements;
 use SilverStripe\Forms\DropdownField;
 use SilverCommerce\GeoZones\Model\Region;
@@ -17,7 +18,7 @@ use SilverCommerce\GeoZones\Model\Region;
  *  $field = RegionSelectField::create("FieldName", "FieldTitle", "CountryFieldName");
  */
 class RegionSelectionField extends DropdownField
-{
+{    
     private static $allowed_actions = [
         "regionslist"
     ];
@@ -32,6 +33,8 @@ class RegionSelectionField extends DropdownField
      * @var string
      */
     private $country_field;
+
+    protected $create_empty_default = true;
 
     /**
      * Get the associated country field
@@ -129,8 +132,26 @@ class RegionSelectionField extends DropdownField
      */
     public function getList($country)
     {
-        return Region::get()
+        $list = Region::get()
             ->filter("CountryCode", strtoupper($country));
+
+        if (!$list->exists() && $this->getCreateEmptyDefault()) {
+            $countries = i18n::getData()->getCountries();
+            if (isset($countries[strtolower($country)])) {
+                $name = $countries[strtolower($country)];
+            } else {
+                $name = $country;
+            }
+            $list = ArrayList::create();
+            $list->push(Region::create([
+                "Name" => $name,
+                "Type" => "Nation",
+                "Code" => strtoupper($country),
+                "CountryCode" => strtoupper($country)
+            ]));
+        }
+
+        return $list;
     }
 
     /**
@@ -144,5 +165,25 @@ class RegionSelectionField extends DropdownField
         $data = $this->getList($id)->map("Code", "Name")->toArray();
 
         return json_encode($data);
+    }
+
+    /**
+     * Get the value of create_empty_default
+     */ 
+    public function getCreateEmptyDefault()
+    {
+        return $this->create_empty_default;
+    }
+
+    /**
+     * Set the value of create_empty_default
+     *
+     * @return  self
+     */ 
+    public function setCreateEmptyDefault($create_empty_default)
+    {
+        $this->create_empty_default = $create_empty_default;
+
+        return $this;
     }
 }

@@ -18,3 +18,7 @@ Allow support for multiple `RegionSelectionField` objects in one form
 
 Add ability to assign multiple countries to a `Zone` (ensureing auto
 linking of regions is simplified).
+
+## 1.1.1
+
+Enabled RegionSelectionField to always return a region list, even when one shouldn't be present.
