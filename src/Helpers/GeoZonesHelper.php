@@ -31,6 +31,14 @@ class GeoZonesHelper
     private $countries_list = [];
 
     /**
+     * Instantiate this object and setup countries (if provided)
+     */
+    public function __construct(array $countries = [])
+    {
+        $this->setCountriesList($countries);
+    }
+
+    /**
      * Get as list of region codes, possibly filtered by list of
      * country codes.
      * 
