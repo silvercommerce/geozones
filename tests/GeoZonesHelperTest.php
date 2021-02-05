@@ -87,7 +87,7 @@ class GeoZonesHelperTest extends SapphireTest
     
         $helper->setCountriesList([$gb_country]);
         $this->assertCount(1, $helper->getCountriesList());
-    
+        
         $helper->setCountriesList([$gb_country, $nz_country]);
         $this->assertCount(2, $helper->getCountriesList());
     
@@ -111,19 +111,27 @@ class GeoZonesHelperTest extends SapphireTest
         $this->assertCount(4837, $helper->getRegionArray());
 
         $helper->setCountriesList([$gb_country]);
-        $this->assertCount(224, $helper->getRegionArray());
+        // Ensure regions cache is working
+        $this->assertCount(4837, $helper->getRegionArray());
+        $this->assertCount(224, $helper->clearRegionCache()->getRegionArray());
         $this->assertEquals('Armagh, Banbridge and Craigavon', $helper->getRegionArray()[0]['name']);
 
         $helper->setCountriesList([$us_country]);
-        $this->assertCount(57, $helper->getRegionArray());
+        $this->assertCount(57, $helper->clearRegionCache()->getRegionArray());
         $this->assertEquals('Alaska', $helper->getRegionArray()[0]['name']);
 
+        // Test region limit
+        $helper->setLimitRegionCodes(['AL', 'AR', 'AS']);
+        $this->assertCount(3, $helper->clearRegionCache()->getRegionArray());
+        $this->assertEquals('Alabama', $helper->getRegionArray()[0]['name']);
+
         $helper->setCountriesList([$nz_country]);
-        $this->assertCount(19, $helper->getRegionArray());
+        $helper->setLimitRegionCodes([]);
+        $this->assertCount(19, $helper->clearRegionCache()->getRegionArray());
         $this->assertEquals('Auckland', $helper->getRegionArray()[0]['name']);
 
         $helper->setCountriesList([$gb_country, $us_country, $nz_country]);
-        $this->assertCount(300, $helper->getRegionArray());
+        $this->assertCount(300, $helper->clearRegionCache()->getRegionArray());
     }
 
     public function testGetRegionsAsObjects()
@@ -136,18 +144,26 @@ class GeoZonesHelperTest extends SapphireTest
         $this->assertCount(4837, $helper->getRegionsAsObjects());
 
         $helper->setCountriesList([$gb_country]);
-        $this->assertCount(224, $helper->getRegionsAsObjects());
+        $this->assertCount(224, $helper->clearRegionCache()->getRegionsAsObjects());
         $this->assertEquals('Armagh, Banbridge and Craigavon', $helper->getRegionsAsObjects()->first()->Name);
 
         $helper->setCountriesList([$us_country]);
-        $this->assertCount(57, $helper->getRegionsAsObjects());
+        // Ensure regions cache is working
+        $this->assertEquals('Armagh, Banbridge and Craigavon', $helper->getRegionsAsObjects()->first()->Name);
+        $this->assertCount(57, $helper->clearRegionCache()->getRegionsAsObjects());
         $this->assertEquals('Alaska', $helper->getRegionsAsObjects()->first()->Name);
 
+        // Test region limit
+        $helper->setLimitRegionCodes(['AL', 'AR', 'AS']);
+        $this->assertCount(3, $helper->clearRegionCache()->getRegionsAsObjects());
+        $this->assertEquals('Alabama', $helper->getRegionsAsObjects()[0]->Name);
+
         $helper->setCountriesList([$nz_country]);
-        $this->assertCount(19, $helper->getRegionsAsObjects());
+        $helper->setLimitRegionCodes([]);
+        $this->assertCount(19, $helper->clearRegionCache()->getRegionsAsObjects());
         $this->assertEquals('Auckland', $helper->getRegionsAsObjects()->first()->Name);
 
         $helper->setCountriesList([$gb_country, $us_country, $nz_country]);
-        $this->assertCount(300, $helper->getRegionsAsObjects());
+        $this->assertCount(300, $helper->clearRegionCache()->getRegionsAsObjects());
     }
 }
