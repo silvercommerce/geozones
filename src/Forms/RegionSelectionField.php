@@ -3,11 +3,13 @@
 namespace SilverCommerce\GeoZones\Forms;
 
 use Locale;
+use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\Requirements;
 use SilverStripe\Forms\DropdownField;
 use SilverCommerce\GeoZones\Model\Region;
+use SilverStripe\View\ArrayData;
 
 /**
  * Custom field that makes use of Ajax to change the list of possible regions you can select.
@@ -132,9 +134,10 @@ class RegionSelectionField extends DropdownField
      */
     public function getList($country)
     {
-        $list = Region::get()
-            ->filter("CountryCode", strtoupper($country));
+        $list = GeoZonesHelper::create([strtoupper($country)])
+            ->getRegionsAsObjects();
 
+        // If there is no region available, create an empty dummy 
         if (!$list->exists() && $this->getCreateEmptyDefault()) {
             $countries = i18n::getData()->getCountries();
             if (isset($countries[strtolower($country)])) {
@@ -143,7 +146,7 @@ class RegionSelectionField extends DropdownField
                 $name = $country;
             }
             $list = ArrayList::create();
-            $list->push(Region::create([
+            $list->push(ArrayData::create([
                 "Name" => $name,
                 "Type" => "Nation",
                 "Code" => strtoupper($country),
