@@ -3,9 +3,13 @@
 namespace SilverCommerce\GeoZones\Model;
 
 use Locale;
+use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
+use SilverStripe\Forms\CheckboxSetField;
 use ZoneMigrationTask;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\ListboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -21,6 +25,7 @@ class Zone extends DataObject
     private static $db = [
         "Name" => "Varchar",
         "Country" => "Varchar",
+        "RegionCodes" => "Text",
         "AllRegions" => "Boolean",
         "Enabled" => "Boolean"
     ];
@@ -30,38 +35,30 @@ class Zone extends DataObject
     ];
 
     private static $many_many = [
-        "Regions" => Region::class
+        "Regions" => Region::class // Remaining for legacy support
     ];
 
     private static $casting = [
         "CountriesList" => "Varchar"
     ];
 
+    private static $field_labels = [
+        "RegionsCount" => "No. of regions"
+    ];
+
     private static $summary_fields = [
         "Name",
         "CountriesList",
-        "Regions.Count",
+        "RegionsCount",
         "Enabled"
     ];
 
     private static $searchable_fields = [
         "Name",
         "Country",
-        "Regions.Name",
-        "Regions.Code",
+        "RegionCodes",
         "Enabled"
     ];
-
-	/**
-	 * {@inheritdoc}
-	 */
-    public function populateDefaults()
-    {
-        parent::populateDefaults();
-
-        $current_region = Locale::getRegion(i18n::get_locale());
-        $this->Country = i18n::get_locale($current_region);
-    }
 
     /**
      * Return an array of all associated countries
@@ -80,6 +77,22 @@ class Zone extends DataObject
     }
 
     /**
+     * Get an array of region codes saved against this object
+     *
+     * @return array
+     */
+    public function getRegionCodesArray()
+    {
+        $return = json_decode($this->RegionCodes);
+
+        if (empty($return) && isset($this->RegionCodes)) {
+            $return = [$this->RegionCodes];
+        }
+
+        return $return;
+    }
+
+    /**
      * Return a simple, comma seperated list of associated countries
      * 
      * @return string
@@ -89,21 +102,60 @@ class Zone extends DataObject
         return implode(",", $this->getCountriesArray());
     }
 
+    /**
+     * Get an array of regions for the current zone, or an empty
+     * array if no countries selected
+     *
+     * @return array
+     */
+    public function getRegionsArray()
+    {
+        $region_codes = $this->getRegionCodesArray();
+        $helper = GeoZonesHelper::create();
+
+        if (count($region_codes) > 0) {
+            $helper->setLimitRegionCodes($region_codes);
+        }
+
+        return $helper->getRegionArray();
+    }
+
+    /**
+     * Get an array of regions for the current country, or an empty
+     * array if no countries selected
+     *
+     * @return array
+     */
+    public function getRegionsCount()
+    {
+        return count($this->getRegionsArray());
+    }
+
 	/**
 	 * {@inheritdoc}
-	 */    
+	 */
     public function getCMSFields()
     {
         $this->beforeUpdateCMSFields(function ($fields) {
+            $fields->removeByName("Regions");
+
+            $helper = GeoZonesHelper::create($this->getCountriesArray());
+
             $fields->replaceField(
                 "Country",
                 ListboxField::create(
                     'Country',
                     $this->fieldLabel("Country"),
-                    array_change_key_case(
-                        i18n::getData()->getCountries(),
-                        CASE_UPPER
-                    )
+                    $helper->getISOCountries()
+                )
+            );
+
+            $fields->replaceField(
+                "RegionCodes",
+                ListboxField::create(
+                    'RegionCodes',
+                    $this->fieldLabel("RegionCodes"),
+                    $helper->getRegionsAsObjects()->map('RegionCode', 'Name')
                 )
             );
         });
@@ -126,22 +178,21 @@ class Zone extends DataObject
 	/**
 	 * {@inheritdoc}
 	 */
-    public function onAfterWrite()
+    public function onBeforeWrite()
     {
-        parent::onAfterWrite();
+        parent::onBeforeWrite();
 
         // If this applies to all regions in the country,
         // then add them all on save
         if ($this->AllRegions && isset($this->Country)) {
-            foreach ($this->getCountriesArray() as $country) {
-                $regions = Region::get()
-                    ->filter("CountryCode", $country);
-                
-                foreach ($regions as $region) {
-                    $this
-                        ->Regions()
-                        ->add($region);
-                }
+            $helper = GeoZonesHelper::create($this->getCountriesArray());
+            $codes = [];
+            foreach ($helper->getRegionArray() as $region) {
+                $codes[] = $region['region_code'];
+            }
+
+            if (count($codes) > 0) {
+                $this->RegionCodes = json_encode($codes);
             }
         }
     }
