@@ -8,7 +8,6 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\Requirements;
 use SilverStripe\Forms\DropdownField;
-use SilverCommerce\GeoZones\Model\Region;
 use SilverStripe\View\ArrayData;
 
 /**
