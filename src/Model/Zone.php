@@ -4,19 +4,18 @@ namespace SilverCommerce\GeoZones\Model;
 
 use Locale;
 use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
-use SilverStripe\Forms\CheckboxSetField;
-use ZoneMigrationTask;
-use SilverStripe\i18n\i18n;
-use SilverStripe\ORM\ArrayList;
+use SilverCommerce\GeoZones\Tasks\ZoneMigrationTask;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\ListboxField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
  * A container of multiple regions
- *
+ * @property string Name
+ * @property string Country
+ * @property string RegionsCode
+ * @property bool AllRegions
+ * @property bool Enabled
  */
 class Zone extends DataObject
 {
