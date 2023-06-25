@@ -15,8 +15,8 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
- * A container of multiple regions 
- * 
+ * A container of multiple regions
+ *
  */
 class Zone extends DataObject
 {
@@ -62,7 +62,7 @@ class Zone extends DataObject
 
     /**
      * Return an array of all associated countries
-     * 
+     *
      * @return array
      */
     public function getCountriesArray()
@@ -94,7 +94,7 @@ class Zone extends DataObject
 
     /**
      * Return a simple, comma seperated list of associated countries
-     * 
+     *
      * @return string
      */
     public function getCountriesList()
@@ -131,9 +131,9 @@ class Zone extends DataObject
         return count($this->getRegionsArray());
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
+    /**
+     * {@inheritdoc}
+     */
     public function getCMSFields()
     {
         $this->beforeUpdateCMSFields(function ($fields) {
@@ -163,21 +163,22 @@ class Zone extends DataObject
         return parent::getCMSFields();
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function requireDefaultRecords() {
+    /**
+     * {@inheritdoc}
+     */
+    public function requireDefaultRecords()
+    {
         parent::requireDefaultRecords();
 
-		if(ZoneMigrationTask::config()->run_during_dev_build) {
-			$task = new ZoneMigrationTask();
-			$task->up();
-		}
-	}
+        if (ZoneMigrationTask::config()->run_during_dev_build) {
+            $task = new ZoneMigrationTask();
+            $task->up();
+        }
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
+    /**
+     * {@inheritdoc}
+     */
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();

@@ -18,7 +18,7 @@ class GeoZonesHelper
 
     /**
      * loaded via yml config
-     * 
+     *
      * @var array
      */
     private static $iso_3166_regions = [];
@@ -72,7 +72,7 @@ class GeoZonesHelper
      * results to improve performace. If you need this helper to regenerate
      * the regions, make sure you call @link clearRegionCache method
      * first
-     * 
+     *
      * @return array
      */
     public function getRegionArray()
@@ -192,7 +192,7 @@ class GeoZonesHelper
      * Get list of countries that this helper will filter by
      *
      * @return array
-     */ 
+     */
     public function getCountriesList()
     {
         return $this->countries_list;
@@ -204,9 +204,9 @@ class GeoZonesHelper
      * @param array $code Single country code
      *
      * @throws LogicException
-     * 
+     *
      * @return self
-     */ 
+     */
     public function addCountryToList(string $code)
     {
         if (!$this->validCountryCode($code)) {
@@ -222,9 +222,9 @@ class GeoZonesHelper
      * @param array $code Single country code
      *
      * @throws LogicException
-     * 
+     *
      * @return self
-     */ 
+     */
     public function removeCountryFromList(string $code)
     {
         if (!$this->validCountryCode($code)) {
@@ -233,7 +233,7 @@ class GeoZonesHelper
 
         $list = $this->countries_list;
 
-        if(($key = array_search($code, $list)) !== false) {
+        if (($key = array_search($code, $list)) !== false) {
             unset($list[$key]);
         }
 
@@ -250,7 +250,7 @@ class GeoZonesHelper
      * @throws LogicException
      *
      * @return self
-     */ 
+     */
     public function setCountriesList(array $countries)
     {
         $this->countries_list = [];
@@ -299,9 +299,9 @@ class GeoZonesHelper
      * @param array $code Single region code
      *
      * @throws LogicException
-     * 
+     *
      * @return self
-     */ 
+     */
     public function removeLimitRegionCodeFromList(string $code)
     {
         if (!$this->validCountryCode($code)) {
@@ -310,7 +310,7 @@ class GeoZonesHelper
 
         $list = $this->limit_region_codes;
 
-        if(($key = array_search($code, $list)) !== false) {
+        if (($key = array_search($code, $list)) !== false) {
             unset($list[$key]);
         }
 
@@ -327,7 +327,7 @@ class GeoZonesHelper
      * @throws LogicException
      *
      * @return self
-     */ 
+     */
     public function setLimitRegionCodes(array $regions)
     {
         $this->limit_region_codes = [];

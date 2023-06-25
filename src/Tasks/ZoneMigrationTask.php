@@ -8,14 +8,15 @@ use SilverCommerce\GeoZones\Model\Zone;
 use SilverStripe\Dev\Debug;
 use SilverStripe\Control\Director;
 
-class ZoneMigrationTask extends MigrationTask {
-	/**
-	 * Should this task be invoked automatically via dev/build?
-	 *
-	 * @config
-	 *
-	 * @var bool
-	 */
+class ZoneMigrationTask extends MigrationTask
+{
+    /**
+     * Should this task be invoked automatically via dev/build?
+     *
+     * @config
+     *
+     * @var bool
+     */
     private static $run_during_dev_build = true;
 
     private static $segment = 'ZoneMigrationTask';
@@ -25,12 +26,13 @@ class ZoneMigrationTask extends MigrationTask {
 
     /**
      * Run this task
-     * 
+     *
      * @param HTTPRequest $request The current request
-     * 
+     *
      * @return void
      */
-    public function run($request) {
+    public function run($request)
+    {
         if ($request->getVar('direction') == 'down') {
             $this->down();
         } else {
@@ -38,16 +40,17 @@ class ZoneMigrationTask extends MigrationTask {
         }
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function up() {
+    /**
+     * {@inheritdoc}
+     */
+    public function up()
+    {
         $zones = Zone::get();
 
         $this->log('Migrating Zones');
         $i = 0;
 
-		foreach ($zones as $zone) {
+        foreach ($zones as $zone) {
             $countries = json_decode($zone->Country);
 
             if (empty($countries) && isset($zone->Country)) {
@@ -59,18 +62,19 @@ class ZoneMigrationTask extends MigrationTask {
         }
         
         $this->log("Migrated {$i} Zones");
-	}
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function down() {
+    /**
+     * {@inheritdoc}
+     */
+    public function down()
+    {
         $zones = Zone::get();
 
         $this->log('Downgrading Zones');
         $i = 0;
 
-		foreach ($zones as $zone) {
+        foreach ($zones as $zone) {
             $countries = json_decode($zone->Country);
 
             if (is_array($countries)) {
@@ -81,18 +85,19 @@ class ZoneMigrationTask extends MigrationTask {
         }
         
         $this->log("Downgraded {$i} Zones");
-	}
+    }
 
-	/**
-	 * @param string $text
-	 */
-	protected function log($text) {
-		if(Controller::curr() instanceof DatabaseAdmin) {
-			DB::alteration_message($text, 'obsolete');
-		} elseif (Director::is_cli()) {
+    /**
+     * @param string $text
+     */
+    protected function log($text)
+    {
+        if (Controller::curr() instanceof DatabaseAdmin) {
+            DB::alteration_message($text, 'obsolete');
+        } elseif (Director::is_cli()) {
             echo $text . "\n";
         } else {
             echo $text . "<br/>";
-		}
-	}
+        }
+    }
 }
