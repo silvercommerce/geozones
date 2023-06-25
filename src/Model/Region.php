@@ -11,6 +11,10 @@ use SilverStripe\Control\Controller;
  *
  * Thanks to debian (https://salsa.debian.org/iso-codes-team/iso-codes/blob/master/data/iso_3166-2.json)
  * for the base data set
+ * @property string Name
+ * @property string Type
+ * @property string Code
+ * @property string CountryCode
  */
 class Region extends DataObject
 {
