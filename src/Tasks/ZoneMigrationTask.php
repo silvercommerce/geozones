@@ -1,11 +1,12 @@
 <?php
 
+namespace SilverCommerce\GeoZones\Tasks;
+
 use SilverStripe\ORM\DB;
 use SilverStripe\Dev\MigrationTask;
 use SilverStripe\ORM\DatabaseAdmin;
 use SilverStripe\Control\Controller;
 use SilverCommerce\GeoZones\Model\Zone;
-use SilverStripe\Dev\Debug;
 use SilverStripe\Control\Director;
 
 class ZoneMigrationTask extends MigrationTask
