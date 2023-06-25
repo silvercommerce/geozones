@@ -15,7 +15,6 @@ use SilverStripe\SiteConfig\SiteConfig;
  * @property string Country
  * @property string RegionsCode
  * @property bool AllRegions
- * @property bool Enabled
  */
 class Zone extends DataObject
 {
