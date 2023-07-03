@@ -51,10 +51,8 @@ class ZoneTest extends SapphireTest
      */
     public function testGetCountriesList($string, $expected)
     {
-        var_dump(Locale::getRegion('en_GB'));
         $zone = Zone::create();
         $zone->Country = $string;
-        $actual = $zone->getCountriesList();
         $this->assertSame(implode(',', $expected), $zone->getCountriesList());
     }
 
