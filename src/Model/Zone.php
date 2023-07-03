@@ -11,7 +11,11 @@ use SilverStripe\SiteConfig\SiteConfig;
 
 /**
  * A container of multiple regions
- *
+ * @property string Name
+ * @property string Country
+ * @property bool AllRegions
+ * @property bool Enabled
+ * @method SiteConfig Site()
  */
 class Zone extends DataObject
 {
