@@ -28,7 +28,7 @@
     "autoload": {
         "psr-4": {
             "SilverCommerce\\GeoZones\\": "src/",
-            "SilverCommerce\\GeoZones\\Tests": "tests/"
+            "SilverCommerce\\GeoZones\\Tests\\": "tests/"
         }
     },
     "extra": {
