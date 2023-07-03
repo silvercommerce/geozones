@@ -3,11 +3,10 @@
 namespace SilverCommerce\GeoZones\Model;
 
 use Locale;
-use ZoneMigrationTask;
+use SilverCommerce\GeoZones\Tasks\ZoneMigrationTask;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\ListboxField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**

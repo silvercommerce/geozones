@@ -4,6 +4,7 @@
 
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 	<file>src</file>
+	<file>tests</file>
 
 	<!-- base rules are PSR-12 -->
 	<rule ref="PSR12" >
