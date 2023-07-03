@@ -27,7 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SilverCommerce\\GeoZones\\": "src/"
+            "SilverCommerce\\GeoZones\\": "src/",
+            "SilverCommerce\\GeoZones\\Tests": "tests/"
         }
     },
     "extra": {
@@ -42,7 +43,8 @@
     "allow-plugins": {
       "composer/installers": true,
       "silverstripe/vendor-plugin": true
-    }
+    },
+    "sort-packages": true
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
