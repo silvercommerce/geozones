@@ -3,16 +3,19 @@
 namespace SilverCommerce\GeoZones\Model;
 
 use Locale;
-use ZoneMigrationTask;
+use SilverCommerce\GeoZones\Tasks\ZoneMigrationTask;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\ListboxField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
- * A container of multiple regions 
- * 
+ * A container of multiple regions
+ * @property string Name
+ * @property string Country
+ * @property bool AllRegions
+ * @property bool Enabled
+ * @method SiteConfig Site()
  */
 class Zone extends DataObject
 {
@@ -52,9 +55,9 @@ class Zone extends DataObject
         "Enabled"
     ];
 
-	/**
-	 * {@inheritdoc}
-	 */
+    /**
+     * {@inheritdoc}
+     */
     public function populateDefaults()
     {
         parent::populateDefaults();
@@ -65,7 +68,7 @@ class Zone extends DataObject
 
     /**
      * Return an array of all associated countries
-     * 
+     *
      * @return array
      */
     public function getCountriesArray()
@@ -81,7 +84,7 @@ class Zone extends DataObject
 
     /**
      * Return a simple, comma seperated list of associated countries
-     * 
+     *
      * @return string
      */
     public function getCountriesList()
@@ -89,9 +92,9 @@ class Zone extends DataObject
         return implode(",", $this->getCountriesArray());
     }
 
-	/**
-	 * {@inheritdoc}
-	 */    
+    /**
+     * {@inheritdoc}
+     */
     public function getCMSFields()
     {
         $this->beforeUpdateCMSFields(function ($fields) {
@@ -111,21 +114,22 @@ class Zone extends DataObject
         return parent::getCMSFields();
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function requireDefaultRecords() {
+    /**
+     * {@inheritdoc}
+     */
+    public function requireDefaultRecords()
+    {
         parent::requireDefaultRecords();
 
-		if(ZoneMigrationTask::config()->run_during_dev_build) {
-			$task = new ZoneMigrationTask();
-			$task->up();
-		}
-	}
+        if (ZoneMigrationTask::config()->run_during_dev_build) {
+            $task = new ZoneMigrationTask();
+            $task->up();
+        }
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
+    /**
+     * {@inheritdoc}
+     */
     public function onAfterWrite()
     {
         parent::onAfterWrite();
@@ -136,7 +140,7 @@ class Zone extends DataObject
             foreach ($this->getCountriesArray() as $country) {
                 $regions = Region::get()
                     ->filter("CountryCode", $country);
-                
+
                 foreach ($regions as $region) {
                     $this
                         ->Regions()

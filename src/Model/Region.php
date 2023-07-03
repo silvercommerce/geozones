@@ -8,7 +8,7 @@ use SilverStripe\Control\Controller;
 
 /**
  * Subdivisions of a country, based on ISO-3166-2 standards.
- * 
+ *
  * Thanks to debian (https://salsa.debian.org/iso-codes-team/iso-codes/blob/master/data/iso_3166-2.json)
  * for the base data set
  */
