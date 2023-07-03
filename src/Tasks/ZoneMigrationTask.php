@@ -61,7 +61,7 @@ class ZoneMigrationTask extends MigrationTask
                 $i++;
             }
         }
-        
+
         $this->log("Migrated {$i} Zones");
     }
 
@@ -84,7 +84,7 @@ class ZoneMigrationTask extends MigrationTask
                 $i++;
             }
         }
-        
+
         $this->log("Downgraded {$i} Zones");
     }
 

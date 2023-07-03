@@ -19,7 +19,7 @@ class SiteConfigExtension extends DataExtension
     private static $has_many = [
         'GeoZones' => Zone::class
     ];
-    
+
     public function updateCMSFields(FieldList $fields)
     {
         $fields->addFieldsToTab(
