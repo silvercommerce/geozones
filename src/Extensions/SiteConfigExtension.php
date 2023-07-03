@@ -7,7 +7,6 @@ use SilverStripe\ORM\DataExtension;
 use SilverCommerce\GeoZones\Model\Zone;
 use SilverCommerce\GeoZones\Model\Region;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 

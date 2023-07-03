@@ -37,6 +37,22 @@ class RegionSelectionField extends DropdownField
     protected $create_empty_default = true;
 
     /**
+     * Custom constructor to allow us to define the associated country field
+     *
+     * @param string $name the name of this field
+     * @param string $title the title (label) of this field
+     * @param string $country_field The name of the country select field in this form
+     * @param string $value pass the value of this field
+     */
+    public function __construct($name, $title = null, $country_field = "Country", $value = null)
+    {
+        // Force construction of parent
+        parent::__construct($name, $title, [], $value);
+
+        $this->country_field = $country_field;
+    }
+
+    /**
      * Get the associated country field
      */
     public function getCountryField()
@@ -79,23 +95,7 @@ class RegionSelectionField extends DropdownField
             ->getList($locale)
             ->map("Code", "Name")
             ->toArray();
-    }
-
-    /**
-     * Custom constructor to allow us to define the associated country field
-     *
-     * @param string $name the name of this field
-     * @param string $title the title (label) of this field
-     * @param string $country_field The name of the country select field in this form
-     * @param string $value pass the value of this field
-     */
-    public function __construct($name, $title = null, $country_field = "Country", $value = null)
-    {
-        // Force construction of parent
-        parent::__construct($name, $title, [], $value);
-
-        $this->country_field = $country_field;
-    }
+    }    
 
     /**
      * Render the final field
