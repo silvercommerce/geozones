@@ -3,35 +3,33 @@
 namespace SilverCommerce\GeoZones\Forms;
 
 use Locale;
-use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\Requirements;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\View\ArrayData;
+use SilverCommerce\GeoZones\Model\Region;
 
 /**
  * Custom field that makes use of Ajax to change the list of possible regions you can select.
- *
+ * 
  * This field needs to be linked with another field on the same form that will provide the
  * selected country code. EG:
- *
+ * 
  *  $field = RegionSelectField::create("FieldName", "FieldTitle", "CountryFieldName");
  */
 class RegionSelectionField extends DropdownField
-{
-
+{    
     private static $allowed_actions = [
         "regionslist"
     ];
 
-    private static $url_handlers = [
+    private static $url_handlers = array(
         '$Action!/$ID' => '$Action'
-    ];
+    );
 
     /**
      * The name of the associated country field
-     *
+     * 
      * @var string
      */
     private $country_field;
@@ -40,7 +38,7 @@ class RegionSelectionField extends DropdownField
 
     /**
      * Get the associated country field
-     */
+     */ 
     public function getCountryField()
     {
         return $this->country_field;
@@ -50,7 +48,7 @@ class RegionSelectionField extends DropdownField
      * Set the associated country field
      *
      * @return  self
-     */
+     */ 
     public function setCountryField($country_field)
     {
         $this->country_field = $country_field;
@@ -61,7 +59,7 @@ class RegionSelectionField extends DropdownField
     /**
      * Overwrite default get source to return
      * custom list of regions
-     *
+     * 
      * @return array|ArrayAccess
      */
     public function getSource()
@@ -85,7 +83,7 @@ class RegionSelectionField extends DropdownField
 
     /**
      * Custom constructor to allow us to define the associated country field
-     *
+     * 
      * @param string $name the name of this field
      * @param string $title the title (label) of this field
      * @param string $country_field The name of the country select field in this form
@@ -129,15 +127,14 @@ class RegionSelectionField extends DropdownField
 
     /**
      * Get a list of regions, filtered by the provided country code
-     *
+     * 
      * @return SSList
      */
     public function getList($country)
     {
-        $list = GeoZonesHelper::create([strtoupper($country)])
-            ->getRegionsAsObjects();
+        $list = Region::get()
+            ->filter("CountryCode", strtoupper($country));
 
-        // If there is no region available, create an empty dummy
         if (!$list->exists() && $this->getCreateEmptyDefault()) {
             $countries = i18n::getData()->getCountries();
             if (isset($countries[strtolower($country)])) {
@@ -146,7 +143,7 @@ class RegionSelectionField extends DropdownField
                 $name = $country;
             }
             $list = ArrayList::create();
-            $list->push(ArrayData::create([
+            $list->push(Region::create([
                 "Name" => $name,
                 "Type" => "Nation",
                 "Code" => strtoupper($country),
@@ -158,8 +155,8 @@ class RegionSelectionField extends DropdownField
     }
 
     /**
-     * Return a list of regions based on the supplied country ID
-     *
+     * Return a list of regions based on the supplied country ID 
+     * 
      * @return string
      */
     public function regionslist()
@@ -172,7 +169,7 @@ class RegionSelectionField extends DropdownField
 
     /**
      * Get the value of create_empty_default
-     */
+     */ 
     public function getCreateEmptyDefault()
     {
         return $this->create_empty_default;
@@ -182,7 +179,7 @@ class RegionSelectionField extends DropdownField
      * Set the value of create_empty_default
      *
      * @return  self
-     */
+     */ 
     public function setCreateEmptyDefault($create_empty_default)
     {
         $this->create_empty_default = $create_empty_default;
