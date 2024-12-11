@@ -201,7 +201,7 @@ class GeoZonesHelper
     /**
      * Add a country code to the of countries
      *
-     * @param array $code Single country code
+     * @param string $code Single country code
      *
      * @throws LogicException
      * 
@@ -219,7 +219,7 @@ class GeoZonesHelper
     /**
      * remove a country code to from the country list
      *
-     * @param array $code Single country code
+     * @param string $code Single country code
      *
      * @throws LogicException
      * 
@@ -256,7 +256,11 @@ class GeoZonesHelper
         $this->countries_list = [];
 
         foreach ($countries as $code) {
-            if (!$this->validCountryCode($code)) {
+            if (empty($code)) {
+                continue;
+            }
+
+            if (!$this->validCountryCode((string)$code)) {
                 throw new LogicException("You must use ISO 3166 2 character country codes");
             }
             $this->countries_list[] = $code;
@@ -278,7 +282,7 @@ class GeoZonesHelper
     /**
      * Add a region code to the list of regions to limit the final list by
      *
-     * @param array $code Single region code
+     * @param string $code Single region code
      *
      * @throws LogicException
      *
@@ -296,7 +300,7 @@ class GeoZonesHelper
     /**
      * Remove a region code to from the region code limit list
      *
-     * @param array $code Single region code
+     * @param string $code Single region code
      *
      * @throws LogicException
      * 
@@ -333,7 +337,11 @@ class GeoZonesHelper
         $this->limit_region_codes = [];
 
         foreach ($regions as $region) {
-            if (!$this->validCountryCode($region)) {
+            if (empty($region)) {
+                continue;
+            }
+
+            if (!$this->validCountryCode((string)$region)) {
                 throw new LogicException("You must use ISO 3166 3 character region codes");
             }
             $this->limit_region_codes[] = $region;

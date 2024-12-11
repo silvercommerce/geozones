@@ -3,15 +3,12 @@
 namespace SilverCommerce\GeoZones\Extensions;
 
 use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
+use SilverCommerce\GeoZones\Model\Region;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 use SilverCommerce\GeoZones\Model\Zone;
-use SilverCommerce\GeoZones\Model\Region;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_Base;
-use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 
@@ -54,6 +51,7 @@ class SiteConfigExtension extends DataExtension
                     _t("SilverCommerce\GeoZones.RegionList", "All regions available (more can be added via YML config)"),
                     $helper->getRegionsAsObjects()
                 )->setConfig($region_config)
+                ->setModelClass(Region::class)
             ]
         );
     }
