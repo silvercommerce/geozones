@@ -15,15 +15,15 @@
     "authors": [
         {
             "name": "Morven Lewis-Everley",
-            "email": "morven@ilateral.co.uk"
+            "email": "morven@dean-forest-tech.uk"
         }
     ],
     "support": {
         "issues": "https://github.com/silvercommerce/geozones/issues"
     },
     "require": {
-        "silverstripe/framework": "~4.0",
-        "silverstripe/siteconfig": "~4.0"
+        "silverstripe/framework": "^4 || ^5",
+        "silverstripe/siteconfig": "^4 || ^5"
     },
     "autoload": {
         "psr-4": {
