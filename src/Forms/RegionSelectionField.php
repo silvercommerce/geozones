@@ -164,8 +164,14 @@ class RegionSelectionField extends DropdownField
      */
     public function regionslist()
     {
-        $id = $this->getRequest()->param("ID");
-        $data = $this->getList($id)->map("Code", "Name")->toArray();
+        $id = $this
+            ->getRequest()
+            ->param("ID");
+
+        $data = $this
+            ->getList($id)
+            ->map("RegionCode", "Name")
+            ->toArray();
 
         return json_encode($data);
     }
