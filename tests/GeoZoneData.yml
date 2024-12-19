@@ -1,0 +1,21 @@
+SilverCommerce\GeoZones\Model\Zone:
+  uk:
+    Country: '["GB"]'
+    RegionCodes: '["EDH","CRF","BDG","BEN","BEX","BNE","BRY","CMD","CRY","ENG","BIR","BST","MAN"]'
+    Enabled: 1
+  fr:
+    Country: '["FR"]'
+    RegionCodes: '["01","02","03","04","05","06","07","08","09","10","75","BRE","CP","LRE"]'
+    Enabled: 1
+  uk_fr:
+    Country: '["GB","FR"]'
+    AllRegions: 1
+    Enabled: 1
+  eu:
+    Country: '["FR","DE","ES","IT"]'
+    AllRegions: 1
+    Enabled: 1
+  us:
+    Country: '["US"]'
+    AllRegions: 1
+    Enabled: 1
