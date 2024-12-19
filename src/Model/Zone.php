@@ -2,20 +2,23 @@
 
 namespace SilverCommerce\GeoZones\Model;
 
-use Locale;
 use SilverCommerce\GeoZones\Helpers\GeoZonesHelper;
-use SilverStripe\Forms\CheckboxSetField;
 use ZoneMigrationTask;
-use SilverStripe\i18n\i18n;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\ListboxField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
- * A container of multiple regions 
+ * A container of multiple regions (usually a country)
+ * 
+ * @property string Name
+ * @property string Country
+ * @property string RegionCodes
+ * @property bool   AllRegions
+ * @property bool   Enabled
+ * @property string CountriesList
+ *
+ * @method SiteConfig Site
  * 
  */
 class Zone extends DataObject
@@ -65,7 +68,7 @@ class Zone extends DataObject
      * 
      * @return array
      */
-    public function getCountriesArray()
+    public function getCountriesArray(): array
     {
         $return = json_decode($this->Country);
 
@@ -81,7 +84,7 @@ class Zone extends DataObject
      *
      * @return array
      */
-    public function getRegionCodesArray()
+    public function getRegionCodesArray(): array
     {
         $return = json_decode($this->RegionCodes);
 
@@ -97,7 +100,7 @@ class Zone extends DataObject
      * 
      * @return string
      */
-    public function getCountriesList()
+    public function getCountriesList(): string
     {
         return implode(",", $this->getCountriesArray());
     }
@@ -108,7 +111,7 @@ class Zone extends DataObject
      *
      * @return array
      */
-    public function getRegionsArray()
+    public function getRegionsArray(): array
     {
         $region_codes = $this->getRegionCodesArray();
         $helper = GeoZonesHelper::create();
@@ -120,13 +123,7 @@ class Zone extends DataObject
         return $helper->getRegionArray();
     }
 
-    /**
-     * Get an array of regions for the current country, or an empty
-     * array if no countries selected
-     *
-     * @return array
-     */
-    public function getRegionsCount()
+    public function getRegionsCount(): int
     {
         return count($this->getRegionsArray());
     }
@@ -155,7 +152,9 @@ class Zone extends DataObject
                 ListboxField::create(
                     'RegionCodes',
                     $this->fieldLabel("RegionCodes"),
-                    $helper->getRegionsAsObjects()->map('RegionCode', 'Name')
+                    $helper
+                        ->getRegionsAsObjects()
+                        ->map('RegionCode', 'Name')
                 )
             );
         });
