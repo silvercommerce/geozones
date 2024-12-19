@@ -31,8 +31,7 @@ class GeoZonesHelper
     private $countries_list = [];
 
     /**
-     * List of ISO 3166 3 character region codes to limit
-     * this list to.
+     * ISO 3166 subdivision/region codes to limit this list to.
      *
      * @var array
      */
@@ -91,7 +90,7 @@ class GeoZonesHelper
         foreach ($regions as $item) {
             if (array_key_exists("code", $item) && array_key_exists("name", $item)) {
                 $codes = explode("-", $item["code"]);
-                $region_code = $codes[1];
+                $region_code = substr($codes[1], -3, 3);
                 $country_code = $codes[0];
                 $type = array_key_exists("type", $item) ? $item["type"] : "";
 
@@ -189,10 +188,43 @@ class GeoZonesHelper
     }
 
     /**
+     * Check if the provided region/sub-division code is valid
+     *
+     * @return bool
+     */
+    protected function validRegionCode(string $code): bool
+    {
+        $all = $this->config()->iso_3166_regions;
+
+        if (!is_array($all)) {
+            throw new LogicException('Invalid list of regions in config');
+        }
+
+        foreach ($all as $region) {
+            if (!is_array($region)) {
+                continue;
+            }
+
+            if (!array_key_exists('code', $region)) {
+                continue;
+            }
+
+            $check = explode('-', $region['code']);
+            $check = $check[1];
+
+            if ($check === $code) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get list of countries that this helper will filter by
      *
      * @return array
-     */ 
+     */
     public function getCountriesList()
     {
         return $this->countries_list;
@@ -290,8 +322,8 @@ class GeoZonesHelper
      */
     public function addLimitRegionCodeToList(string $code)
     {
-        if (!$this->validCountryCode($code)) {
-            throw new LogicException("You must use ISO 3166 3 character region codes");
+        if (!$this->validRegionCode($code)) {
+            throw new LogicException("You must use ISO 3166 subdivision codes");
         }
         $this->limit_region_codes[] = $code;
         return $this;
@@ -308,8 +340,8 @@ class GeoZonesHelper
      */ 
     public function removeLimitRegionCodeFromList(string $code)
     {
-        if (!$this->validCountryCode($code)) {
-            throw new LogicException("You must use ISO 3166 3 character region codes");
+        if (!$this->validRegionCode($code)) {
+            throw new LogicException("You must use ISO 3166 subdivision codes");
         }
 
         $list = $this->limit_region_codes;
@@ -331,7 +363,7 @@ class GeoZonesHelper
      * @throws LogicException
      *
      * @return self
-     */ 
+     */
     public function setLimitRegionCodes(array $regions)
     {
         $this->limit_region_codes = [];
@@ -341,9 +373,10 @@ class GeoZonesHelper
                 continue;
             }
 
-            if (!$this->validCountryCode((string)$region)) {
-                throw new LogicException("You must use ISO 3166 3 character region codes");
+            if (!$this->validRegionCode((string)$region)) {
+                throw new LogicException("Subdivision: '$region' not a valid ISO 3166 code");
             }
+
             $this->limit_region_codes[] = $region;
         }
 
