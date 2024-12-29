@@ -113,8 +113,13 @@ class Zone extends DataObject
      */
     public function getRegionsArray(): array
     {
+        $countries = $this->getCountriesArray();
         $region_codes = $this->getRegionCodesArray();
         $helper = GeoZonesHelper::create();
+
+        if (count($countries) > 0) {
+            $helper->setCountriesList($countries);
+        }
 
         if (count($region_codes) > 0) {
             $helper->setLimitRegionCodes($region_codes);
