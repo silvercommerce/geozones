@@ -75,10 +75,11 @@ build:
       project_setup:
         override:
           - 'true'
-        tests:
-          override:
-            - php ./vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite scrutinizer
-            - php-scrutinizer-run
+      
+      tests:
+        override:
+          - php ./vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite scrutinizer
+          - php-scrutinizer-run
 
 coding_style:
   php:
