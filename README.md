@@ -1,6 +1,6 @@
 # SilverCommerce GeoZones
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silvercommerce/geozones/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/silvercommerce/geozones/?branch=1.0)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silvercommerce/geozones/badges/quality-score.png?b=2)](https://scrutinizer-ci.com/g/silvercommerce/geozones/?branch=2)
 
 Adds the ability to create "Zones" in the SilverStripe admin and assign them to regions.
 
