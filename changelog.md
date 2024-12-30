@@ -27,3 +27,8 @@ Enabled RegionSelectionField to always return a region list, even when one shoul
 
 * Add SS5 support
 * Code and performance improvements
+
+## 2.1.0
+
+* Fix errors in 2.0.0 releases
+* Add task to migrate and revert Region objects to YML
