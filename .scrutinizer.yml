@@ -67,15 +67,24 @@ checks:
 
 build:
   environment:
-    php: '8.2'
-  tools:
-    phpunit:
-      config: phpunit.xml.dist
-      command: vendor/bin/phpunit
+    php:
+      version: "8.2"
+
   nodes:
     analysis:
-      tests:
-        override: [php-scrutinizer-run]
+      project_setup:
+        override:
+          - 'true'
+        tests:
+          override:
+            - php ./vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite scrutinizer
+            - php-scrutinizer-run
+
+coding_style:
+  php:
+    indentation:
+      general:
+        use_tabs: true
 
 filter:
   paths: [src/*, tests/*]
