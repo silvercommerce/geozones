@@ -66,6 +66,12 @@ checks:
     argument_type_checks: true
 
 build:
+  environment:
+    php: '8.2'
+  tools:
+    phpunit:
+      config: phpunit.xml.dist
+      command: vendor/bin/phpunit
   nodes:
     analysis:
       tests:
