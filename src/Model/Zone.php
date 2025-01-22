@@ -70,10 +70,19 @@ class Zone extends DataObject
      */
     public function getCountriesArray(): array
     {
-        $return = json_decode($this->Country);
+        $country = $this->Country;
+        $return = [];
 
-        if (empty($return) && isset($this->Country)) {
-            $return = [$this->Country];
+        if (!empty($country)) {
+            $return = json_decode($country);
+        }
+
+        if (!is_array($return) && isset($country)) {
+            $return = [$country];
+        }
+
+        if (!is_array($return)) {
+            $return = [];
         }
 
         return $return;
