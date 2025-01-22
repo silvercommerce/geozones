@@ -32,3 +32,7 @@ Enabled RegionSelectionField to always return a region list, even when one shoul
 
 * Fix errors in 2.0.0 releases
 * Add task to migrate and revert Region objects to YML
+
+## 2.1.1
+
+* Fix errors in Zone::getCountriesArray()
