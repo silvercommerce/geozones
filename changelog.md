@@ -40,3 +40,7 @@ Enabled RegionSelectionField to always return a region list, even when one shoul
 ## 2.1.2
 
 * Fix errors in Zone::getCountriesArray()
+
+## 2.1.3
+
+* Fix another error in `Zone`
