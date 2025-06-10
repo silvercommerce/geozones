@@ -95,10 +95,11 @@ class Zone extends DataObject
      */
     public function getRegionCodesArray(): array
     {
-        $return = json_decode($this->RegionCodes);
+        $codes = (string)$this->RegionCodes;
+        $return = json_decode($codes);
 
-        if (empty($return) && isset($this->RegionCodes)) {
-            $return = [$this->RegionCodes];
+        if (empty($return) && isset($codes)) {
+            $return = [$codes];
         }
 
         return $return;
