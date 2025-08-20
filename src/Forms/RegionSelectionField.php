@@ -79,7 +79,7 @@ class RegionSelectionField extends DropdownField
 
         return $this
             ->getList($locale)
-            ->map("Code", "Name")
+            ->map("RegionCode", "Name")
             ->toArray();
     }
 
