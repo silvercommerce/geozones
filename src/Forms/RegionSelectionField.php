@@ -154,6 +154,8 @@ class RegionSelectionField extends DropdownField
             ]));
         }
 
+        $list = $list->sort('Name ASC');
+
         return $list;
     }
 
