@@ -146,7 +146,7 @@ class GeoZonesHelper
      * Generate an array of country codes and names that can be used in
      * country dropdowns, or for comparison.
      *
-     * @param bool $codes_only Rturn only an array of 2 character codes (no names)
+     * @param bool $codes_only Return only an array of 2 character codes (no names)
      *
      * @return array
      */
@@ -156,6 +156,15 @@ class GeoZonesHelper
             i18n::getData()->getCountries(),
             CASE_UPPER
         );
+
+        // ensure we only have valid country codes
+        // sometimes this list contains invalid codes
+        foreach ($countries as $code => $name) {
+            if (empty($code) || strlen($code) !== 2) {
+                unset($countries[$code]);
+                continue;
+            }
+        }
 
         if ($codes_only === true) {
             return array_keys($countries);
